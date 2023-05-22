@@ -79,15 +79,15 @@ WSGI_APPLICATION = 'contactform2.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+# O python decouple serve para que a configuração do settings sirva tanto para o desenvolvimento quanto ao deploy da aplicação
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.postgresql',
-        'NAME': config('POSTGRES_DB'),
-        'USER': config('POSTGRES_USER'),
-        'PASSWORD': config('POSTGRES_PASSWORD'),
-        'HOST': config('DB_HOST', 'localhost'),
-        'PORT': config('PORT'),
+        'NAME': config('POSTGRES_DB'), #Nome do banco
+        'USER': config('POSTGRES_USER'), #Nome do usuário
+        'PASSWORD': config('POSTGRES_PASSWORD'), #senha de acesso ao banco
+        'HOST': config('DB_HOST', 'localhost'), #local onde está rodando o banco
+        'PORT': config('PORT', cast=int),# porta do banco -> postgres 5432
     }       
 }
 '''
