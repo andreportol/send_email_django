@@ -13,8 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
-import dj_database_url
 from decouple import Csv, config
+from dj_database_url import parse as db_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,8 +30,8 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG',default=False, cast=bool)
 
 
-#ALLOWED_HOSTS = config('ALLOWED_HOSTS', default =[], cast=Csv())
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default =[], cast=Csv())
+#ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -79,18 +79,22 @@ WSGI_APPLICATION = 'contactform2.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-'''
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE':'django.db.backends.postgresql',
+        'NAME': config('POSTGRES_DB'),
+        'USER': config('POSTGRES_USER'),
+        'PASSWORD': config('POSTGRES_PASSWORD'),
+        'HOST': config('DB_HOST', 'localhost'),
+        'PORT': '5432',
+    }       
 }
 '''
 DATABASES = {
     'default': dj_database_url.parse(os.environ.get('DATABASE_URL'), conn_max_age=600),   
 }
-
+'''
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
